@@ -7,16 +7,16 @@ This is `Version.swift` from the [Swift Package Manager], with some minor
 adjustments:
 
 1. More compact `Codable` implementation †
-2. Implements LosslessStringConvertible ‡
+2. Implements `LosslessStringConvertible` ‡
 3. Not a massive-single-source-file (MSSF)
 4. [Online documentation][docs]
 5. Extensions for `Bundle` and `ProcessInfo`
-6. More readable serialization for `Codable` for `Range<Version>`
-7. Removal of the potentially fatal `ExpressibleByStringLiteral` conformance
-8. A “tolerant” initializer for user input like `10.0` or `3`
-9. Idiomatic implementations for `Range<Version>`
+6. Removal of the potentially fatal `ExpressibleByStringLiteral` conformance
+7. A “tolerant” initializer for user input like `10.0` or `3`
+8. Idiomatic implementations for `Range<Version>`
 
-We automatically sync and extract from the parent repo.
+We have automatic monitoring for changes at Apple’s repo to alert us if we
+should need merge any fixes.
 
 > † [Semantic versions][semver] can be losslessly expressed as strings; thus we
 > do so.

@@ -356,6 +356,8 @@ class VersionTests: XCTestCase {
         let output = try JSONDecoder().decode([Version].self, from: data)
         XCTAssertEqual(input, output)
 
+        XCTAssertEqual(String(data: data, encoding: .utf8), "[\"0.0.0\"]")
+
         let corruptData = try JSONEncoder().encode(["1.2.c"])
         XCTAssertThrowsError(try JSONDecoder().decode([Version].self, from: corruptData))
     }
