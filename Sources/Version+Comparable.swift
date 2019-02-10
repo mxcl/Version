@@ -3,6 +3,11 @@ extension Version: Comparable {
         return major == other.major && minor == other.minor && patch == other.patch
     }
 
+    /**
+     `1.0.0` is less than `1.0.1`, `1.0.1-alpha` is less than `1.0.1` but
+     greater than `1.0.0`.
+     - Returns: `true` if `lhs` is less than `rhs`
+     */
     public static func < (lhs: Version, rhs: Version) -> Bool {
         let lhsComparators = [lhs.major, lhs.minor, lhs.patch]
         let rhsComparators = [rhs.major, rhs.minor, rhs.patch]

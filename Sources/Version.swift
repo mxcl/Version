@@ -78,7 +78,8 @@ public struct Version: Hashable {
 
 extension Version: LosslessStringConvertible {
     /**
-     Create a version object from string.
+     Creates a version object from a string.
+     - Note: Returns `nil` if the string is not a valid semantic version.
      - Parameter string: The string to parse.
      */
     public init?(_ string: String) {
@@ -111,7 +112,7 @@ extension Version: LosslessStringConvertible {
             end: string.endIndex)
     }
 
-    /// Returns the a lossless string representation of this semantic version.
+    /// Returns the lossless string representation of this semantic version.
     public var description: String {
         var base = "\(major).\(minor).\(patch)"
         if !prereleaseIdentifiers.isEmpty {

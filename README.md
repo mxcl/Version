@@ -46,9 +46,32 @@ wage*. Please help me continue my work, I appreciate it 🙏🏻
 	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-[Other ways to say thanks](http://mxcl.github.io/donate/).
+[Other ways to say thanks](http://mxcl.github.io/#donate).
 
 [`brew`]: https://brew.sh
+
+# Usage
+
+```swift
+import Version
+
+// these two initializers are the same, use whichever suits the code context
+let v1 = Version(1,0,0)
+let v2 = Version(major: 1, minor: 0, patch: 0)
+
+let v3 = Version("1.2.3")           // =>  1.2.3: Version?
+let v4 = Version(tolerant: "10.1")  // => 10.1.0: Version?
+let v5 = Version(tolerant: "10")    // => 10.0.0: Version?
+
+// a real Version object from your app’s Info.plist
+let v6 = Bundle.main.version
+
+let range = Version(1,2,3)..<Version(2,0,0)
+
+let null: Version = .null  // => Version(0,0,0)
+
+let foo = Version(1,2,3) < Version(2,0,0)  // => true
+```
 
 # Installation
 

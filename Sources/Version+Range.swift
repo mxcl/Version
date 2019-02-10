@@ -1,7 +1,8 @@
 extension ClosedRange where Bound == Version {
     /**
      - Returns: `true` if the provided Version exists within this range.
-     - Important: Returns `false` if `version` has prerelease identifiers unless the range *also* contains prerelease identifiers.
+     - Important: Returns `false` if `version` has prerelease identifiers unless
+     the range *also* contains prerelease identifiers.
      */
     public func contains(_ version: Version) -> Bool {
         // Special cases if version contains prerelease identifiers.
@@ -18,7 +19,8 @@ extension ClosedRange where Bound == Version {
 extension Range where Bound == Version {
     /**
      - Returns: `true` if the provided Version exists within this range.
-     - Important: Returns `false` if `version` has prerelease identifiers unless the range *also* contains prerelease identifiers.
+     - Important: Returns `false` if `version` has prerelease identifiers unless
+     the range *also* contains prerelease identifiers.
      */
     public func contains(_ version: Version) -> Bool {
         // Special cases if version contains prerelease identifiers.
