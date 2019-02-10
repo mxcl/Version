@@ -1,0 +1,79 @@
+# only run for: merge commits, releases and pull-requests
+if: type != push OR branch = master OR branch =~ /^\d+\.\d+(\.\d+)?(-\S*)?$/
+
+stages:
+  - name: test
+  - name: deploy
+    if: branch =~ ^\d+\.\d+\.\d+$
+
+os: osx
+language: swift
+osx_image: xcode10.1
+xcode_project: Version.xcodeproj
+xcode_scheme: Version-Package
+  
+jobs:
+  include:
+    - &xcodebuild
+      before_install: swift package generate-xcodeproj --enable-code-coverage
+      xcode_destination: platform=macOS
+      name: macOS / Swift 4.2.1
+      after_success: bash <(curl -s https://codecov.io/bash)
+    - <<: *xcodebuild
+      xcode_destination: platform=iOS Simulator,OS=latest,name=iPhone XS
+      name: iOS / Swift 4.2.1
+    - <<: *xcodebuild
+      xcode_destination: platform=tvOS Simulator,OS=latest,name=Apple TV
+      name: tvOS / Swift 4.2.1
+    - <<: *xcodebuild
+      name: watchOS / Swift 4.2.1
+      script: |
+        set -o pipefail
+        xcodebuild \
+          -project Version.xcodeproj \
+          -scheme Version-Package \
+          -destination 'platform=watchOS Simulator,OS=latest,name=Apple Watch Series 4 - 40mm' \
+          build | xcpretty
+      after_success: false
+
+    - &linux
+      env: SWIFT_VERSION=4.2.1
+      os: linux
+      name: Linux / Swift 4.2.1
+      language: generic
+      install: eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
+      script: swift build
+      
+    - <<: *linux
+      env: SWIFT_VERSION='DEVELOPMENT-SNAPSHOT-2019-02-03-a'
+      name: Linux / Swift 5.0.0-dev (2019-02-03)
+
+    - stage: deploy
+      name: Jazzy
+      before_install: |
+        cat <<\ \ EOF> .jazzy.yaml
+        module: Version
+        module_version: TRAVIS_TAG
+        custom_categories:
+          - name: Version
+            children:
+              - Version
+        xcodebuild_arguments:
+          - UseModernBuildSystem=NO
+        output: output
+        github_url: https://github.com/mxcl/Version
+        EOF
+        sed -i '' "s/TRAVIS_TAG/$TRAVIS_TAG/" .jazzy.yaml
+      # ^^ this weirdness because Travis multiline YAML is broken and inserts
+      # two spaces in front of the output which means we need a prefixed
+      # delimiter which also weirdly stops bash from doing variable substitution
+      install: gem install jazzy
+      before_script: swift package generate-xcodeproj
+      script: jazzy
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        local-dir: output
+        on:
+          tags: true
