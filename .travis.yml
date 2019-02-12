@@ -35,6 +35,10 @@ jobs:
           -destination 'platform=watchOS Simulator,OS=latest,name=Apple Watch Series 4 - 40mm' \
           build | xcpretty
       after_success: false
+    - <<: *xcodebuild
+      osx_image: xcode10.2
+      xcode_destination: platform=macOS
+      name: macOS / Swift 5.0
 
     - &linux
       env: SWIFT_VERSION=4.2.1
