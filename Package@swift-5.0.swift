@@ -1,4 +1,4 @@
-// swift-tools-version:4.2
+// swift-tools-version:5.0
 import PackageDescription
 
 let pkg = Package(
@@ -9,7 +9,7 @@ let pkg = Package(
     targets: [
         .target(name: "Version", path: "Sources"),
     ],
-    swiftLanguageVersions: [.v4, .v4_2]
+    swiftLanguageVersions: [.v4, .v4_2, .v5]
 )
 
 #if !os(Linux)
