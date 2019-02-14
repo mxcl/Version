@@ -9,7 +9,7 @@ let pkg = Package(
     targets: [
         .target(name: "Version", path: "Sources"),
     ],
-    swiftLanguageVersions: [.v4, .v4_2]
+    swiftLanguageVersions: [.v4, .v4_2, .version("5")]
 )
 
 #if !os(Linux)
