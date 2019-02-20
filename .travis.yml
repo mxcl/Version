@@ -38,12 +38,12 @@ jobs:
     - <<: *xcodebuild
       osx_image: xcode10.2
       xcode_destination: platform=macOS
-      name: macOS / Swift 5.0
+      name: macOS / Swift 5.0-beta
 
     - &linux
-      env: SWIFT_VERSION=4.2.1
+      env: SWIFT_VERSION=4.2.2
       os: linux
-      name: Linux / Swift 4.2.1
+      name: Linux / Swift 4.2.2
       language: generic
       install: eval "$(curl -sL https://swiftenv.fuller.li/install.sh)"
       script: swift build

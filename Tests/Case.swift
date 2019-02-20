@@ -58,14 +58,38 @@ class VersionTests: XCTestCase {
     }
 
     func testFromString() {
-        let badStrings = [
-            "", "1", "1.2", "1.2.3.4", "1.2.3.4.5",
-            "a", "1.a", "a.2", "a.2.3", "1.a.3", "1.2.a",
-            "-1.2.3", "1.-2.3", "1.2.-3", ".1.2.3", "v.1.2.3", "1.2..3", "v1.2.3",
-        ]
-        for str in badStrings {
-            XCTAssertNil(Version(string: str))
-        }
+        XCTAssertNil(Version(string: ""))
+        XCTAssertNil(Version(string: "1"))
+        XCTAssertNil(Version(string: "1.2"))
+        XCTAssertNil(Version(string: "1.2.3.4"))
+        XCTAssertNil(Version(string: "1.2.3.4.5"))
+        XCTAssertNil(Version(string: "a"))
+        XCTAssertNil(Version(string: "1.a"))
+        XCTAssertNil(Version(string: "a.2"))
+        XCTAssertNil(Version(string: "a.2.3"))
+        XCTAssertNil(Version(string: "1.a.3"))
+        XCTAssertNil(Version(string: "1.2.a"))
+        XCTAssertNil(Version(string: "-1.2.3"))
+        XCTAssertNil(Version(string: "1.-2.3"))
+        XCTAssertNil(Version(string: "1.2.-3"))
+        XCTAssertNil(Version(string: ".1.2.3"))
+        XCTAssertNil(Version(string: "v.1.2.3"))
+        XCTAssertNil(Version(string: "1.2..3"))
+        XCTAssertNil(Version(string: "v1.2.3"))
+        XCTAssertNil(Version(string: ".1.2"))
+        XCTAssertNil(Version(string: ".1"))
+
+        XCTAssertNil(Version(string: "-1.1.1"))
+        XCTAssertNil(Version(string: "1.-1.1"))
+        XCTAssertNil(Version(string: "1.1.-1"))
+        XCTAssertNil(Version(string: "1.-1.-1"))
+        XCTAssertNil(Version(string: "-1.-1.-1"))
+        XCTAssertNil(Version(string: "10..0.0"))
+        XCTAssertNil(Version(string: "10.0..0"))
+        XCTAssertNil(Version(string: "10.0.0."))
+        XCTAssertNil(Version(string: "10.0.0.."))
+        XCTAssertNil(Version(string: "10.0.0.0"))
+        XCTAssertNil(Version(string: "10.0.0.-1"))
 
         XCTAssertEqual(Version(1,2,3), Version(string: "1.2.3"))
         XCTAssertEqual(Version(1,2,3), Version(string: "01.002.0003"))
@@ -337,17 +361,66 @@ class VersionTests: XCTestCase {
         }
     }
 
+    func testAbsolute() {
+        XCTAssertEqual(Version(-1,1,1), Version(1,1,1))
+        XCTAssertEqual(Version(1,-1,1), Version(1,1,1))
+        XCTAssertEqual(Version(1,1,-1), Version(1,1,1))
+        XCTAssertEqual(Version(1,-1,-1), Version(1,1,1))
+        XCTAssertEqual(Version(-1,-1,-1), Version(1,1,1))
+    }
+
     func testInitializers() {
         let v1 = Version(1,0,0)
-        let v2 = Version("1.0.0")
-        let v3 = Version(major: 1, minor: 0, patch: 0)
-        let v4 = Version(tolerant: "1.0")
-        let v5 = Version(tolerant: "1")
-
+        let v2 = Version(major: 1, minor: 0, patch: 0)
         XCTAssertEqual(v1, v2)
-        XCTAssertEqual(v2, v3)
-        XCTAssertEqual(v3, v4)
-        XCTAssertEqual(v4, v5)
+    }
+
+    func testTolerantIntiliazer() {
+        XCTAssertEqual(Version(tolerant: "2.3-beta"), Version(2,3,0, prereleaseIdentifiers: ["beta"]))
+
+        XCTAssertNil(Version(tolerant: "10..0.0"))
+        XCTAssertNil(Version(tolerant: "10.0..0"))
+        XCTAssertNil(Version(tolerant: "10.0.0."))
+        XCTAssertNil(Version(tolerant: "10.0.0.."))
+        XCTAssertNil(Version(tolerant: "10.0.0.0"))
+
+        XCTAssertNil(Version(tolerant: "10.0.0.-1"))
+
+        XCTAssertNil(Version(tolerant: "10beta"))
+        XCTAssertNil(Version(tolerant: "10d"))
+        XCTAssertNil(Version(tolerant: "10.-1"))
+
+        XCTAssertNil(Version(tolerant: ""))
+        XCTAssertNil(Version(tolerant: "1.2.3.4"))
+        XCTAssertNil(Version(tolerant: "1.2.3.4.5"))
+        XCTAssertNil(Version(tolerant: "a"))
+        XCTAssertNil(Version(tolerant: "1.a"))
+        XCTAssertNil(Version(tolerant: "a.2"))
+        XCTAssertNil(Version(tolerant: "a.2.3"))
+        XCTAssertNil(Version(tolerant: "1.a.3"))
+        XCTAssertNil(Version(tolerant: "1.2.a"))
+        XCTAssertNil(Version(tolerant: "-1.2.3"))
+        XCTAssertNil(Version(tolerant: "1.-2.3"))
+        XCTAssertNil(Version(tolerant: "1.2.-3"))
+        XCTAssertNil(Version(tolerant: ".1.2.3"))
+        XCTAssertNil(Version(tolerant: ".1.2"))
+        XCTAssertNil(Version(tolerant: ".1"))
+        XCTAssertNil(Version(tolerant: "v.1.2.3"))
+        XCTAssertNil(Version(tolerant: "v.1.2"))
+        XCTAssertNil(Version(tolerant: "v.1"))
+        XCTAssertNil(Version(tolerant: "1.2..3"))
+
+        XCTAssertNil(Version(string: "1-beta1"))
+        XCTAssertEqual(Version(tolerant: "1-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+        XCTAssertNil(Version(string: "1.0-beta1"))
+        XCTAssertEqual(Version(tolerant: "1.0-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+
+        XCTAssertEqual(Version(tolerant: "v1"), Version(1,0,0))
+        XCTAssertEqual(Version(tolerant: "v1.0"), Version(1,0,0))
+        XCTAssertEqual(Version(tolerant: "v1.0.0"), Version(1,0,0))
+        XCTAssertEqual(Version(tolerant: "v1-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "v1.0-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "v1.0.0-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
     }
 
     func testCodable() throws {
