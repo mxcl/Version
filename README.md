@@ -12,7 +12,7 @@ adjustments:
 4. [Online documentation][docs]
 5. Extensions for `Bundle` and `ProcessInfo`
 6. Removal of the potentially fatal `ExpressibleByStringLiteral` conformance
-7. A “tolerant” initializer for user input like `10.0` or `3`
+7. A “tolerant” initializer for user input like `10.0` or `v3`
 8. Idiomatic implementations for `Range<Version>`
 
 We have automatic monitoring for changes at Apple’s repo to alert us if we
@@ -25,7 +25,7 @@ should need merge any fixes.
 > so we conform to the same protocol.
 
 [semver]: https://semver.org
-[docs]: https://mxcl.github.io/Version/Structs/Version.html
+[docs]: https://mxcl.dev/Version/Structs/Version.html
 [badge-platforms]: https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS-lightgrey.svg
 [badge-languages]: https://img.shields.io/badge/swift-4.2%20%7C%205.0-orange.svg
 [badge-jazzy]: https://raw.githubusercontent.com/mxcl/Version/gh-pages/badge.svg?sanitize=true
@@ -46,7 +46,7 @@ wage*. Please help me continue my work, I appreciate it 🙏🏻
 	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-[Other ways to say thanks](http://mxcl.github.io/#donate).
+[Other ways to say thanks](http://mxcl.dev/#donate).
 
 [`brew`]: https://brew.sh
 
