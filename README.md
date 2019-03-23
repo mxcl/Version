@@ -14,6 +14,7 @@ adjustments:
 6. Removal of the potentially fatal `ExpressibleByStringLiteral` conformance
 7. A “tolerant” initializer for user input like `10.0` or `v3`
 8. Idiomatic implementations for `Range<Version>`
+9. Initialization from `StringProtocol`, not just `String`
 
 We have automatic monitoring for changes at Apple’s repo to alert us if we
 should need merge any fixes.

@@ -71,6 +71,14 @@ extension Version: LosslessStringConvertible {
      - Parameter string: The string to parse.
      */
     public init?(_ string: String) {
+        self.init(internal: string)
+    }
+
+    public init?<S: StringProtocol>(_ string: S) {
+        self.init(internal: string)
+    }
+
+    private init?<S: StringProtocol>(internal string: S) {
         let prereleaseStartIndex = string.firstIndex(of: "-")
         let metadataStartIndex = string.firstIndex(of: "+")
 
@@ -78,7 +86,7 @@ extension Version: LosslessStringConvertible {
         let requiredCharacters = string.prefix(upTo: requiredEndIndex)
         let requiredComponents = requiredCharacters
             .split(separator: ".", maxSplits: 2, omittingEmptySubsequences: false)
-            .compactMap{ Int($0) }
+            .compactMap({ Int($0) })
 
         guard requiredComponents.count == 3 else { return nil }
 
@@ -89,7 +97,7 @@ extension Version: LosslessStringConvertible {
         func identifiers(start: String.Index?, end: String.Index) -> [String] {
             guard let start = start else { return [] }
             let identifiers = string[string.index(after: start)..<end]
-            return identifiers.split(separator: ".").map(String.init)
+            return identifiers.split(separator: ".").map(String.init(_:))
         }
 
         self.prereleaseIdentifiers = identifiers(
@@ -120,14 +128,8 @@ public extension Version {
      - Remark: This initializer will not recognizer builds-metadata-identifiers.
      - Remark: Tolerates an initial `v` character.
      */
-    init?(tolerant: String) {
-        let string: Substring
-        if tolerant.first == "v" {
-            string = tolerant.dropFirst()
-        } else {
-            string = Substring(tolerant)
-        }
-
+    init?<S: StringProtocol>(tolerant: S) {
+        let string = tolerant.dropFirst(tolerant.first == "v" ? 1 : 0)
         let prereleaseStartIndex = string.firstIndex(of: "-")
         let requiredEndIndex = prereleaseStartIndex ?? string.endIndex
         let requiredCharacters = string.prefix(upTo: requiredEndIndex)
@@ -148,7 +150,7 @@ public extension Version {
 
         if let prereleaseStartIndex = prereleaseStartIndex {
             let identifiers = string[string.index(after: prereleaseStartIndex)..<string.endIndex]
-            prereleaseIdentifiers = identifiers.split(separator: ".").map(String.init)
+            prereleaseIdentifiers = identifiers.split(separator: ".").map(String.init(_:))
         } else {
             prereleaseIdentifiers = []
         }
