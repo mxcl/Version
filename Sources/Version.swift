@@ -71,14 +71,49 @@ extension Version: LosslessStringConvertible {
      - Parameter string: The string to parse.
      */
     public init?(_ string: String) {
+    #if compiler(>=5)
         self.init(internal: string)
+    #else
+        //NOTE code duplicated in self.init(internal:); no other way to support Swift 4.2
+
+        let prereleaseStartIndex = string.firstIndex(of: "-")
+        let metadataStartIndex = string.firstIndex(of: "+")
+
+        let requiredEndIndex = prereleaseStartIndex ?? metadataStartIndex ?? string.endIndex
+        let requiredCharacters = string.prefix(upTo: requiredEndIndex)
+        let requiredComponents = requiredCharacters
+            .split(separator: ".", maxSplits: 2, omittingEmptySubsequences: false)
+            .compactMap({ Int($0) })
+
+        guard requiredComponents.count == 3 else { return nil }
+
+        self.major = requiredComponents[0]
+        self.minor = requiredComponents[1]
+        self.patch = requiredComponents[2]
+
+        func identifiers(start: String.Index?, end: String.Index) -> [String] {
+            guard let start = start else { return [] }
+            let identifiers = string[string.index(after: start)..<end]
+            return identifiers.split(separator: ".").map(String.init(_:))
+        }
+
+        self.prereleaseIdentifiers = identifiers(
+            start: prereleaseStartIndex,
+            end: metadataStartIndex ?? string.endIndex)
+        self.buildMetadataIdentifiers = identifiers(
+            start: metadataStartIndex,
+            end: string.endIndex)
+    #endif
     }
 
+#if compiler(>=5)
     public init?<S: StringProtocol>(_ string: S) {
         self.init(internal: string)
     }
 
     private init?<S: StringProtocol>(internal string: S) {
+        //NOTE code duplicated in self.init(_:); no other way to support Swift 4.2
+
         let prereleaseStartIndex = string.firstIndex(of: "-")
         let metadataStartIndex = string.firstIndex(of: "+")
 
@@ -107,6 +142,7 @@ extension Version: LosslessStringConvertible {
             start: metadataStartIndex,
             end: string.endIndex)
     }
+#endif
 
     /// Returns the lossless string representation of this semantic version.
     public var description: String {
