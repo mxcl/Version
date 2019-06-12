@@ -11,7 +11,7 @@ public extension Bundle {
      - Important: Returns `0.0.0` (`Version.null`) if result is absent or invalid.
     */
     var version: Version {
-        return (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).flatMap(Version.init(tolerant:)) ?? .null
+        return (infoDictionary?["CFBundleShortVersionString"] as? String).flatMap(Version.init(tolerant:)) ?? .null
     }
 }
 
