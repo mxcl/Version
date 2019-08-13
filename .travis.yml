@@ -74,6 +74,7 @@ jobs:
       install: gem install jazzy
       before_script: swift package generate-xcodeproj
       script: jazzy
+      osx_image: xcode10.2
       deploy:
         provider: pages
         skip-cleanup: true
