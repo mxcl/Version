@@ -435,6 +435,16 @@ class VersionTests: XCTestCase {
         XCTAssertThrowsError(try JSONDecoder().decode([Version].self, from: corruptData))
     }
 
+    func testCodableWithTolerantInitializer() throws {
+        let versionString = "1.2"
+        let input = try JSONEncoder().encode([versionString])
+
+        let encoder = JSONDecoder()
+        XCTAssertThrowsError(try encoder.decode([Version].self, from: input))
+        encoder.userInfo[.decodingMethod] = DecodingMethod.tolerant
+        XCTAssertNoThrow(try encoder.decode([Version].self, from: input))
+    }
+
     func testBundleExtension() {
         XCTAssertEqual(Bundle.main.version, .null)
     }
