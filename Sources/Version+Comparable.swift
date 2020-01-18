@@ -1,3 +1,9 @@
+extension Version: Equatable {
+    public static func == (lhs: Version, rhs: Version) -> Bool {
+        return lhs.major == rhs.major && lhs.minor == rhs.minor && lhs.patch == rhs.patch && lhs.prereleaseIdentifiers == rhs.prereleaseIdentifiers
+    }
+}
+
 extension Version: Comparable {
     func isEqualWithoutPrerelease(_ other: Version) -> Bool {
         return major == other.major && minor == other.minor && patch == other.patch
@@ -46,3 +52,4 @@ extension Version: Comparable {
         return lhs.prereleaseIdentifiers.count < rhs.prereleaseIdentifiers.count
     }
 }
+

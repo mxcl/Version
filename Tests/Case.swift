@@ -35,6 +35,21 @@ class VersionTests: XCTestCase {
         }
     }
 
+    func testEqualityWithBuildMetadata() {
+        let versions: [(Version, Version)] = [
+            (Version(1,2,3, buildMetadataIdentifiers: ["123"]), Version(1,2,3, buildMetadataIdentifiers: ["987"])),
+            (Version(1,2,3, buildMetadataIdentifiers: ["123"]), Version(1,2,3, buildMetadataIdentifiers: ["123"])),
+            (Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["123"]), Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["987"])),
+            (Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["123"]), Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["123"]))
+        ]
+
+        for (v1, v2) in versions {
+            XCTAssertEqual(v1, v2)
+            XCTAssertLessThanOrEqual(v1, v2)
+            XCTAssertGreaterThanOrEqual(v1, v2)
+        }
+    }
+
     func testHashable() {
         let versions: [Version] = [Version(1,2,3), Version(1,2,3), Version(1,2,3),
             Version(1,0,0, prereleaseIdentifiers: ["alpha"]), Version(1,0,0, prereleaseIdentifiers: ["alpha"]),
