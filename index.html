@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Version  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a title="Version  Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="index.html">Version 2.0.0 Docs</a> (97% documented)</p>
+        <p class="header-right"><a href="https://github.com/mxcl/Version"><img src="img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="index.html">Version Reference</a>
+        <img id="carat" src="img/carat.png" />
+        Version  Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="Version.html">Version</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/Version.html">Version</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Other%20Enums.html">Other Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Enums/DecodingMethod.html">DecodingMethod</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="Other%20Extensions.html">Other Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Extensions/Bundle.html">Bundle</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/ClosedRange.html">ClosedRange</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/CodingUserInfoKey.html">CodingUserInfoKey</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/ProcessInfo.html">ProcessInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Extensions/Range.html">Range</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            
+            <h1 id='version-img-src-https-img-shields-io-badge-platforms-macos-20-7c-20linux-20-7c-20ios-20-7c-20tvos-20-7c-20watchos-lightgrey-svg-alt-badge-platforms-img-src-https-img-shields-io-badge-swift-4-2-20-7c-205-0-orange-svg-alt-badge-languages-a-href-https-travis-ci-com-mxcl-version-img-src-https-travis-ci-com-mxcl-version-svg-alt-badge-ci-a-a-href-https-mxcl-dev-version-structs-version-html-img-src-https-raw-githubusercontent-com-mxcl-version-gh-pages-badge-svg-sanitize-true-alt-badge-jazzy-a-a-href-https-codecov-io-gh-mxcl-version-img-src-https-codecov-io-gh-mxcl-version-branch-master-graph-badge-svg-alt-badge-codecov-a' class='heading'>Version <img src="https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS-lightgrey.svg" alt="badge-platforms"> <img src="https://img.shields.io/badge/swift-4.2%20%7C%205.0-orange.svg" alt="badge-languages"> <a href="https://travis-ci.com/mxcl/Version"><img src="https://travis-ci.com/mxcl/Version.svg" alt="badge-ci"></a> <a href="https://mxcl.dev/Version/Structs/Version.html"><img src="https://raw.githubusercontent.com/mxcl/Version/gh-pages/badge.svg?sanitize=true" alt="badge-jazzy"></a> <a href="https://codecov.io/gh/mxcl/Version"><img src="https://codecov.io/gh/mxcl/Version/branch/master/graph/badge.svg" alt="badge-codecov"></a></h1>
+
+<p>A µ-framework for representing, comparing, encoding and utilizing
+<a href="https://semver.org">semantic versions</a>, eg. <code>1.2.3</code> or <code>2.0.0-beta</code>.</p>
+
+<p>This is <code>Version.swift</code> from the <a href="https://github.com/apple/swift-package-manager/blob/master/Sources/SPMUtility/Version.swift">Swift Package Manager</a>, with some minor
+adjustments:</p>
+
+<ol>
+<li>More compact <code>Codable</code> implementation †</li>
+<li>Implements <code>LosslessStringConvertible</code> ‡</li>
+<li>Not a massive-single-source-file (MSSF)</li>
+<li><a href="https://mxcl.dev/Version/Structs/Version.html">Online documentation</a></li>
+<li>Extensions for <code>Bundle</code> and <code>ProcessInfo</code></li>
+<li>Removal of the potentially fatal <code>ExpressibleByStringLiteral</code> conformance</li>
+<li>A “tolerant” initializer for user input like <code>10.0</code> or <code>v3</code></li>
+<li>Idiomatic implementations for <code>Range&lt;Version&gt;</code></li>
+<li>Initialization from <code>StringProtocol</code>, not just <code>String</code></li>
+</ol>
+
+<p>We have automatic monitoring for changes at Apple’s repo to alert us if we
+should need merge any fixes.</p>
+
+<blockquote>
+<p>† <a href="https://semver.org">Semantic versions</a> can be losslessly expressed as strings; thus we
+do so.</p>
+
+<p>‡ Like <code>Int</code> we can losslessly store a semantic version from a valid string,
+so we conform to the same protocol.</p>
+</blockquote>
+<h1 id='support-mxcl' class='heading'>Support mxcl</h1>
+
+<p>Hey there, I’m Max Howell. I’m a prolific producer of open source software and
+probably you already use some of it (for example, I created <a href="https://brew.sh"><code>brew</code></a>). I work
+full-time on open source and it’s hard; currently <em>I earn less than minimum
+wage</em>. Please help me continue my work, I appreciate it 🙏🏻</p>
+
+<p><a href="https://www.patreon.com/mxcl">
+    <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a></p>
+
+<p><a href="http://mxcl.dev/#donate">Other ways to say thanks</a>.</p>
+<h1 id='usage' class='heading'>Usage</h1>
+<pre class="highlight swift"><code><span class="kd">import</span> <span class="kt">Version</span>
+
+<span class="c1">// these two initializers are the same, use whichever suits the code context</span>
+<span class="k">let</span> <span class="nv">v1</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">v2</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="nv">major</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">minor</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="nv">patch</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">v3</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3"</span><span class="p">)</span>           <span class="c1">// =&gt;  1.2.3: Version?</span>
+<span class="k">let</span> <span class="nv">v4</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="nv">tolerant</span><span class="p">:</span> <span class="s">"10.1"</span><span class="p">)</span>  <span class="c1">// =&gt; 10.1.0: Version?</span>
+<span class="k">let</span> <span class="nv">v5</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="nv">tolerant</span><span class="p">:</span> <span class="s">"10"</span><span class="p">)</span>    <span class="c1">// =&gt; 10.0.0: Version?</span>
+
+<span class="c1">// a real Version object from your app’s Info.plist</span>
+<span class="k">let</span> <span class="nv">v6</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">version</span>
+
+<span class="k">let</span> <span class="nv">range</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">..&lt;</span><span class="kt">Version</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">let</span> <span class="nv">null</span><span class="p">:</span> <span class="kt">Version</span> <span class="o">=</span> <span class="o">.</span><span class="n">null</span>  <span class="c1">// =&gt; Version(0,0,0)</span>
+
+<span class="k">let</span> <span class="nv">foo</span> <span class="o">=</span> <span class="kt">Version</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="o">&lt;</span> <span class="kt">Version</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>  <span class="c1">// =&gt; true</span>
+</code></pre>
+<h1 id='installation' class='heading'>Installation</h1>
+
+<p>SwiftPM:</p>
+<pre class="highlight swift"><code><span class="n">package</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/mxcl/Version.git"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.0.0"</span><span class="p">))</span>
+</code></pre>
+
+<p>Carthage:</p>
+
+<blockquote>
+<p>Waiting on: <a href="https://github.com/Carthage/Carthage/pull/1945">@Carthage#1945</a>.</p>
+</blockquote>
+<h2 id='ranges' class='heading'>Ranges</h2>
+
+<p>Ranges work as you expect, but there are caveats for prerelease identifiers,
+here are the rules:</p>
+
+<blockquote>
+<p><code>1.0.0..&lt;2.0.0</code> does not include eg. <code>2.0.0-alpha</code></p>
+</blockquote>
+
+<p>This is probably what you expected. However:</p>
+
+<blockquote>
+<p><code>1.0.0..&lt;2.0.0</code> also does not include eg. <code>1.5.0-alpha</code></p>
+</blockquote>
+
+<p>However:</p>
+
+<blockquote>
+<p><code>1.0.0..&lt;2.0.0-beta</code> <strong>does</strong> include eg. <code>2.0.0-alpha</code></p>
+</blockquote>
+
+<p>This is how the majority of Semantic Version libraries work.</p>
+<h2 id='comparable-equatable-amp-hashable' class='heading'>Comparable, Equatable &amp; Hashable</h2>
+
+<p>Both comparable and equatable ignore build metadata as per the specification. Thus:</p>
+<pre class="highlight swift"><code><span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+14"</span><span class="p">)</span> <span class="o">==</span> <span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+15"</span><span class="p">)</span>  <span class="c1">// =&gt; true</span>
+<span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+14"</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+15"</span><span class="p">)</span>  <span class="c1">// =&gt; true</span>
+<span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+14"</span><span class="p">)</span> <span class="o">&lt;</span>  <span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+15"</span><span class="p">)</span>  <span class="c1">// =&gt; false</span>
+</code></pre>
+
+<p>This also means that <code>Hashable</code> must mirror this behavior, thus:</p>
+<pre class="highlight swift"><code><span class="n">dict</span><span class="p">[</span><span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+14"</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dict</span><span class="p">[</span><span class="kt">Version</span><span class="p">(</span><span class="s">"1.2.3+15"</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">dict</span><span class="o">.</span><span class="n">count</span>  <span class="c1">// =&gt; 1</span>
+<span class="n">dict</span>        <span class="c1">// =&gt; ["1.2.3+15": 2]</span>
+</code></pre>
+
+<p>Be aware of this as it may catch you out, naturally this will also effect structures
+that depend on <code>Hashable</code>, eg. <code>Set</code>.</p>
+
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2020 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2020-01-18)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
