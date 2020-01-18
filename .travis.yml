@@ -39,6 +39,10 @@ jobs:
       osx_image: xcode10.2
       xcode_destination: platform=macOS
       name: macOS / Swift 5.0
+    - <<: *xcodebuild
+      osx_image: xcode11
+      xcode_destination: platform=macOS
+      name: macOS / Swift 5.1
 
     - &linux
       env: SWIFT_VERSION=4.2.2
@@ -49,8 +53,8 @@ jobs:
       script: swift build
 
     - <<: *linux
-      env: SWIFT_VERSION=5.0      
-      name: Linux / Swift 5.0.0
+      env: SWIFT_VERSION=5.1.3
+      name: Linux / Swift 5.1.3
 
     - stage: deploy
       name: Jazzy
