@@ -103,6 +103,24 @@ However:
 
 This is how the majority of Semantic Version libraries work.
 
-## Comparable & Equatable
+## Comparable, Equatable & Hashable
 
-Both comparable and equatable ignore build metadata as per the specification.
+Both comparable and equatable ignore build metadata as per the specification. Thus:
+
+```swift
+Version("1.2.3+14") == Version("1.2.3+15")  // => true
+Version("1.2.3+14") <= Version("1.2.3+15")  // => true
+Version("1.2.3+14") <  Version("1.2.3+15")  // => false
+```
+
+This also means that `Hashable` must mirror this behavior, thus:
+
+```swift
+dict[Version("1.2.3+14")] = 1
+dict[Version("1.2.3+15")] = 2
+dict.count  // => 1
+dict        // => ["1.2.3+15": 2]
+```
+
+Be aware of this as it may catch you out, naturally this will also effect structures
+that depend on `Hashable`, eg. `Set`.

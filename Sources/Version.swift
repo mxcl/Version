@@ -15,7 +15,7 @@
  A struct representing a “semver” version, that is: a Semantic Version.
  - SeeAlso: https://semver.org
  */
-public struct Version: Hashable {
+public struct Version {
     /// The major version.
     public let major: Int
 

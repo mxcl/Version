@@ -1,3 +1,12 @@
+extension Version: Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(major)
+        hasher.combine(minor)
+        hasher.combine(patch)
+        hasher.combine(prereleaseIdentifiers)
+    }
+}
+
 extension Version: Equatable {
     /// Compares the provided versions *without* comparing any build-metadata
     public static func == (lhs: Version, rhs: Version) -> Bool {
