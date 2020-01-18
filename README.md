@@ -103,3 +103,6 @@ However:
 
 This is how the majority of Semantic Version libraries work.
 
+## Comparable & Equatable
+
+Both comparable and equatable ignore build metadata as per the specification.
