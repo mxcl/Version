@@ -37,12 +37,12 @@ public struct Version: Hashable {
      - Remark: This initializer variant provided for more readable code when initializing with static integers.
      */
     @inlinable
-    public init(_ major: Int, _ minor: Int, _ patch: Int, prereleaseIdentifiers: [String] = [], buildMetadataIdentifiers: [String] = []) {
+    public init(_ major: Int, _ minor: Int, _ patch: Int, pre: [String] = [], build: [String] = []) {
         self.major = abs(major)
         self.minor = abs(minor)
         self.patch = abs(patch)
-        self.prereleaseIdentifiers = prereleaseIdentifiers
-        self.buildMetadataIdentifiers = buildMetadataIdentifiers
+        self.prereleaseIdentifiers = pre
+        self.buildMetadataIdentifiers = build
 
         if major < 0 || minor < 0 || patch < 0 {
             print("warning: negative component in version: \(major).\(minor).\(patch)")
@@ -57,7 +57,7 @@ public struct Version: Hashable {
      */
     @inlinable
     public init(major: Int, minor: Int, patch: Int, prereleaseIdentifiers: [String] = [], buildMetadataIdentifiers: [String] = []) {
-        self.init(major, minor, patch, prereleaseIdentifiers: prereleaseIdentifiers, buildMetadataIdentifiers: buildMetadataIdentifiers)
+        self.init(major, minor, patch, pre: prereleaseIdentifiers, build: buildMetadataIdentifiers)
     }
 
     /// Represents `0.0.0`

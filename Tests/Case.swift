@@ -15,7 +15,7 @@ class VersionTests: XCTestCase {
 
     func testEquality() {
         let versions: [Version] = [Version(1,2,3), Version(0,0,0),
-            Version(0,0,0, prereleaseIdentifiers: ["alpha"], buildMetadataIdentifiers: ["yol"]), Version(0,0,0, prereleaseIdentifiers: ["alpha.1"], buildMetadataIdentifiers: ["pol"]),
+            Version(0,0,0, pre: ["alpha"], build: ["yol"]), Version(0,0,0, pre: ["alpha.1"], build: ["pol"]),
             Version(0,1,2), Version(10,7,3),
         ]
         // Test that each version is equal to itself and not equal to others.
@@ -26,8 +26,8 @@ class VersionTests: XCTestCase {
                     // Construct the object again with different initializer.
                     XCTAssertEqual(version,
                         Version(rversion.major, rversion.minor, rversion.patch,
-                            prereleaseIdentifiers: rversion.prereleaseIdentifiers,
-                            buildMetadataIdentifiers: rversion.buildMetadataIdentifiers))
+                            pre: rversion.prereleaseIdentifiers,
+                            build: rversion.buildMetadataIdentifiers))
                 } else {
                     XCTAssertNotEqual(version, rversion)
                 }
@@ -37,10 +37,10 @@ class VersionTests: XCTestCase {
 
     func testEqualityWithBuildMetadata() {
         let versions: [(Version, Version)] = [
-            (Version(1,2,3, buildMetadataIdentifiers: ["123"]), Version(1,2,3, buildMetadataIdentifiers: ["987"])),
-            (Version(1,2,3, buildMetadataIdentifiers: ["123"]), Version(1,2,3, buildMetadataIdentifiers: ["123"])),
-            (Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["123"]), Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["987"])),
-            (Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["123"]), Version(4,5,6, prereleaseIdentifiers: ["alpha1"], buildMetadataIdentifiers: ["123"]))
+            (Version(1,2,3, build: ["123"]), Version(1,2,3, build: ["987"])),
+            (Version(1,2,3, build: ["123"]), Version(1,2,3, build: ["123"])),
+            (Version(4,5,6, pre: ["alpha1"], build: ["123"]), Version(4,5,6, pre: ["alpha1"], build: ["987"])),
+            (Version(4,5,6, pre: ["alpha1"], build: ["123"]), Version(4,5,6, pre: ["alpha1"], build: ["123"]))
         ]
 
         for (v1, v2) in versions {
@@ -52,14 +52,15 @@ class VersionTests: XCTestCase {
 
     func testHashable() {
         let versions: [Version] = [Version(1,2,3), Version(1,2,3), Version(1,2,3),
-            Version(1,0,0, prereleaseIdentifiers: ["alpha"]), Version(1,0,0, prereleaseIdentifiers: ["alpha"]),
+            Version(1,0,0, pre: ["alpha"]), Version(1,0,0, pre: ["alpha"]),
             Version(1,0,0), Version(1,0,0)
         ]
-        XCTAssertEqual(Set(versions), Set([Version(1,0,0, prereleaseIdentifiers: ["alpha"]), Version(1,2,3), Version(1,0,0)]))
+        XCTAssertEqual(Set(versions), Set([Version(1,0,0, pre: ["alpha"]), Version(1,2,3), Version(1,0,0)]))
 
         XCTAssertEqual(Set([Version(1,2,3)]), Set([Version(1,2,3)]))
-        XCTAssertNotEqual(Set([Version(1,2,3)]), Set([Version(1,2,3, prereleaseIdentifiers: ["alpha"])]))
-        XCTAssertNotEqual(Set([Version(1,2,3)]), Set([Version(1,2,3, buildMetadataIdentifiers: ["1011"])]))
+        XCTAssertNotEqual(Set([Version(1,2,3)]), Set([Version(1,2,3, pre: ["alpha"])]))
+        XCTAssertEqual(Set([Version(1,2,3)]), Set([Version(1,2,3, build: ["1011"])]))
+        XCTAssertEqual(Set([Version(1,2,3, build: ["1010"])]), Set([Version(1,2,3, build: ["1011"])]))
     }
 
     func testDescription() {
@@ -109,9 +110,9 @@ class VersionTests: XCTestCase {
         XCTAssertEqual(Version(1,2,3), Version(1,2,3))
         XCTAssertEqual(Version(1,2,3), Version(01,002,0003))
         XCTAssertEqual(Version(0,9,21), Version(0,9,21))
-        XCTAssertEqual(Version(0,9,21, prereleaseIdentifiers: ["alpha", "beta"], buildMetadataIdentifiers: ["1011"]),
+        XCTAssertEqual(Version(0,9,21, pre: ["alpha", "beta"], build: ["1011"]),
             Version("0.9.21-alpha.beta+1011"))
-        XCTAssertEqual(Version(0,9,21, prereleaseIdentifiers: [], buildMetadataIdentifiers: ["1011"]), Version("0.9.21+1011"))
+        XCTAssertEqual(Version(0,9,21, pre: [], build: ["1011"]), Version("0.9.21+1011"))
     }
 
     func testComparable() {
@@ -179,8 +180,8 @@ class VersionTests: XCTestCase {
         do {
             // Prerelease precedence tests taken directly from http://semver.org
             var tests: [Version] = [
-                Version(1,0,0, prereleaseIdentifiers: ["alpha"]), Version(1,0,0, prereleaseIdentifiers: ["alpha","1"]), Version(1,0,0, prereleaseIdentifiers: ["alpha","beta"]), Version(1,0,0, prereleaseIdentifiers: ["beta"]),
-                Version(1,0,0, prereleaseIdentifiers: ["beta","2"]), Version(1,0,0, prereleaseIdentifiers: ["beta","11"]), Version(1,0,0, prereleaseIdentifiers: ["rc","1"]), Version(1,0,0)
+                Version(1,0,0, pre: ["alpha"]), Version(1,0,0, pre: ["alpha","1"]), Version(1,0,0, pre: ["alpha","beta"]), Version(1,0,0, pre: ["beta"]),
+                Version(1,0,0, pre: ["beta","2"]), Version(1,0,0, pre: ["beta","11"]), Version(1,0,0, pre: ["rc","1"]), Version(1,0,0)
             ]
 
             var v1 = tests.removeFirst()
@@ -256,41 +257,41 @@ class VersionTests: XCTestCase {
             XCTAssertTrue(range.contains(Version(1,0,0)))
             XCTAssertTrue(range.contains(Version(1,5,0)))
             XCTAssertTrue(range.contains(Version(1,9,99999)))
-            XCTAssertTrue(range.contains(Version(1,9,99999, buildMetadataIdentifiers: ["1232"])))
+            XCTAssertTrue(range.contains(Version(1,9,99999, build: ["1232"])))
 
-            XCTAssertFalse(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertFalse(range.contains(Version(1,5,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertFalse(range.contains(Version(2,0,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,0,0, pre: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,5,0, pre: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(2,0,0, pre: ["alpha"])))
             XCTAssertFalse(range.contains(Version(2,0,0)))
         }
 
         do {
-            let range: Range<Version> = Version(1,0,0)..<Version(2,0,0, prereleaseIdentifiers: ["beta"])
+            let range: Range<Version> = Version(1,0,0)..<Version(2,0,0, pre: ["beta"])
 
             XCTAssertTrue(range.contains(Version(1,0,0)))
             XCTAssertTrue(range.contains(Version(1,5,0)))
             XCTAssertTrue(range.contains(Version(1,9,99999)))
-            XCTAssertTrue(range.contains(Version(1,0,1, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertTrue(range.contains(Version(2,0,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,1, pre: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(2,0,0, pre: ["alpha"])))
 
-            XCTAssertFalse(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,0,0, pre: ["alpha"])))
             XCTAssertFalse(range.contains(Version(2,0,0)))
-            XCTAssertFalse(range.contains(Version(2,0,0, prereleaseIdentifiers: ["beta"])))
-            XCTAssertFalse(range.contains(Version(2,0,0, prereleaseIdentifiers: ["clpha"])))
+            XCTAssertFalse(range.contains(Version(2,0,0, pre: ["beta"])))
+            XCTAssertFalse(range.contains(Version(2,0,0, pre: ["clpha"])))
         }
 
         do {
-            let range: Range<Version> = Version(1,0,0, prereleaseIdentifiers: ["alpha"])..<Version(2,0,0)
+            let range: Range<Version> = Version(1,0,0, pre: ["alpha"])..<Version(2,0,0)
             XCTAssertTrue(range.contains(Version(1,0,0)))
             XCTAssertTrue(range.contains(Version(1,5,0)))
             XCTAssertTrue(range.contains(Version(1,9,99999)))
-            XCTAssertTrue(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertTrue(range.contains(Version(1,0,0, prereleaseIdentifiers: ["beta"])))
-            XCTAssertTrue(range.contains(Version(1,0,1, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,0, pre: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,0, pre: ["beta"])))
+            XCTAssertTrue(range.contains(Version(1,0,1, pre: ["alpha"])))
 
-            XCTAssertFalse(range.contains(Version(2,0,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertFalse(range.contains(Version(2,0,0, prereleaseIdentifiers: ["beta"])))
-            XCTAssertFalse(range.contains(Version(2,0,0, prereleaseIdentifiers: ["clpha"])))
+            XCTAssertFalse(range.contains(Version(2,0,0, pre: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(2,0,0, pre: ["beta"])))
+            XCTAssertFalse(range.contains(Version(2,0,0, pre: ["clpha"])))
             XCTAssertFalse(range.contains(Version(2,0,0)))
         }
 
@@ -303,25 +304,25 @@ class VersionTests: XCTestCase {
             XCTAssertFalse(range.contains(Version(1,2,0)))
             XCTAssertFalse(range.contains(Version(1,5,0)))
             XCTAssertFalse(range.contains(Version(2,0,0)))
-            XCTAssertFalse(range.contains(Version(1,0,0, prereleaseIdentifiers: ["beta"])))
-            XCTAssertFalse(range.contains(Version(1,0,10, prereleaseIdentifiers: ["clpha"])))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,0,0, pre: ["beta"])))
+            XCTAssertFalse(range.contains(Version(1,0,10, pre: ["clpha"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["alpha"])))
         }
 
         do {
-            let range: Range<Version> = Version(1,0,0)..<Version(1,1,0, prereleaseIdentifiers: ["alpha"])
+            let range: Range<Version> = Version(1,0,0)..<Version(1,1,0, pre: ["alpha"])
             XCTAssertTrue(range.contains(Version(1,0,0)))
             XCTAssertTrue(range.contains(Version(1,0,9)))
-            XCTAssertTrue(range.contains(Version(1,0,1, prereleaseIdentifiers: ["beta"])))
-            XCTAssertTrue(range.contains(Version(1,0,10, prereleaseIdentifiers: ["clpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,1, pre: ["beta"])))
+            XCTAssertTrue(range.contains(Version(1,0,10, pre: ["clpha"])))
 
             XCTAssertFalse(range.contains(Version(1,1,0)))
             XCTAssertFalse(range.contains(Version(1,2,0)))
             XCTAssertFalse(range.contains(Version(1,5,0)))
             XCTAssertFalse(range.contains(Version(2,0,0)))
-            XCTAssertFalse(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["beta"])))
+            XCTAssertFalse(range.contains(Version(1,0,0, pre: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["beta"])))
         }
 
         //MARK: closed ranges
@@ -331,43 +332,43 @@ class VersionTests: XCTestCase {
             XCTAssertTrue(range.contains(Version(1,0,9)))
             XCTAssertTrue(range.contains(Version(1,1,0)))
 
-            XCTAssertFalse(range.contains(Version(1,0,1, prereleaseIdentifiers: ["beta"])))
-            XCTAssertFalse(range.contains(Version(1,0,10, prereleaseIdentifiers: ["clpha"])))
-            XCTAssertFalse(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,0,1, pre: ["beta"])))
+            XCTAssertFalse(range.contains(Version(1,0,10, pre: ["clpha"])))
+            XCTAssertFalse(range.contains(Version(1,0,0, pre: ["alpha"])))
             XCTAssertFalse(range.contains(Version(1,2,0)))
             XCTAssertFalse(range.contains(Version(1,5,0)))
             XCTAssertFalse(range.contains(Version(2,0,0)))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["beta"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["beta"])))
         }
 
         do {
-            let range: ClosedRange<Version> = Version(1,0,0)...Version(1,1,0, prereleaseIdentifiers: ["alpha"])
+            let range: ClosedRange<Version> = Version(1,0,0)...Version(1,1,0, pre: ["alpha"])
             XCTAssertTrue(range.contains(Version(1,0,0)))
             XCTAssertTrue(range.contains(Version(1,0,9)))
-            XCTAssertTrue(range.contains(Version(1,0,1, prereleaseIdentifiers: ["beta"])))
-            XCTAssertTrue(range.contains(Version(1,0,10, prereleaseIdentifiers: ["clpha"])))
-            XCTAssertTrue(range.contains(Version(1,1,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,1, pre: ["beta"])))
+            XCTAssertTrue(range.contains(Version(1,0,10, pre: ["clpha"])))
+            XCTAssertTrue(range.contains(Version(1,1,0, pre: ["alpha"])))
 
-            XCTAssertFalse(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertFalse(range.contains(Version(1,0,0, pre: ["alpha"])))
             XCTAssertFalse(range.contains(Version(1,1,0)))
             XCTAssertFalse(range.contains(Version(1,2,0)))
             XCTAssertFalse(range.contains(Version(1,5,0)))
             XCTAssertFalse(range.contains(Version(2,0,0)))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["beta"])))
-            XCTAssertFalse(range.contains(Version(1,1,0, prereleaseIdentifiers: ["alphb"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["beta"])))
+            XCTAssertFalse(range.contains(Version(1,1,0, pre: ["alphb"])))
         }
 
         do {
-            let range: ClosedRange<Version> = Version(1,0,0, prereleaseIdentifiers: ["alpha"])...Version(1,1,0)
+            let range: ClosedRange<Version> = Version(1,0,0, pre: ["alpha"])...Version(1,1,0)
 
             XCTAssertTrue(range.contains(Version(1,0,9)))
-            XCTAssertTrue(range.contains(Version(1,0,1, prereleaseIdentifiers: ["beta"])))
-            XCTAssertTrue(range.contains(Version(1,0,10, prereleaseIdentifiers: ["clpha"])))
-            XCTAssertTrue(range.contains(Version(1,0,0, prereleaseIdentifiers: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,1, pre: ["beta"])))
+            XCTAssertTrue(range.contains(Version(1,0,10, pre: ["clpha"])))
+            XCTAssertTrue(range.contains(Version(1,0,0, pre: ["alpha"])))
             XCTAssertTrue(range.contains(Version(1,1,0)))
-            XCTAssertTrue(range.contains(Version(1,1,0, prereleaseIdentifiers: ["alpha"])))
-            XCTAssertTrue(range.contains(Version(1,1,0, prereleaseIdentifiers: ["beta"])))
+            XCTAssertTrue(range.contains(Version(1,1,0, pre: ["alpha"])))
+            XCTAssertTrue(range.contains(Version(1,1,0, pre: ["beta"])))
             XCTAssertTrue(range.contains(Version(1,0,0)))
 
             XCTAssertFalse(range.contains(Version(1,2,0)))
@@ -391,7 +392,7 @@ class VersionTests: XCTestCase {
     }
 
     func testTolerantIntiliazer() {
-        XCTAssertEqual(Version(tolerant: "2.3-beta"), Version(2,3,0, prereleaseIdentifiers: ["beta"]))
+        XCTAssertEqual(Version(tolerant: "2.3-beta"), Version(2,3,0, pre: ["beta"]))
 
         XCTAssertNil(Version(tolerant: "10..0.0"))
         XCTAssertNil(Version(tolerant: "10.0..0"))
@@ -426,16 +427,16 @@ class VersionTests: XCTestCase {
         XCTAssertNil(Version(tolerant: "1.2..3"))
 
         XCTAssertNil(Version("1-beta1"))
-        XCTAssertEqual(Version(tolerant: "1-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "1-beta1"), Version(1,0,0, pre: ["beta1"]))
         XCTAssertNil(Version("1.0-beta1"))
-        XCTAssertEqual(Version(tolerant: "1.0-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "1.0-beta1"), Version(1,0,0, pre: ["beta1"]))
 
         XCTAssertEqual(Version(tolerant: "v1"), Version(1,0,0))
         XCTAssertEqual(Version(tolerant: "v1.0"), Version(1,0,0))
         XCTAssertEqual(Version(tolerant: "v1.0.0"), Version(1,0,0))
-        XCTAssertEqual(Version(tolerant: "v1-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
-        XCTAssertEqual(Version(tolerant: "v1.0-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
-        XCTAssertEqual(Version(tolerant: "v1.0.0-beta1"), Version(1,0,0, prereleaseIdentifiers: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "v1-beta1"), Version(1,0,0, pre: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "v1.0-beta1"), Version(1,0,0, pre: ["beta1"]))
+        XCTAssertEqual(Version(tolerant: "v1.0.0-beta1"), Version(1,0,0, pre: ["beta1"]))
     }
 
     func testCodable() throws {
