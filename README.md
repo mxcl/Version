@@ -79,7 +79,7 @@ let foo = Version(1,2,3) < Version(2,0,0)  // => true
 SwiftPM:
 
 ```swift
-package.append(.package(url: "https://github.com/mxcl/Version.git", from: "1.0.0"))
+package.append(.package(url: "https://github.com/mxcl/Version.git", from: "2.0.0"))
 ```
 
 Carthage:
