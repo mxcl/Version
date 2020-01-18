@@ -1,4 +1,5 @@
 extension Version: Equatable {
+    /// Compares the provided versions *without* comparing any build-metadata
     public static func == (lhs: Version, rhs: Version) -> Bool {
         return lhs.major == rhs.major && lhs.minor == rhs.minor && lhs.patch == rhs.patch && lhs.prereleaseIdentifiers == rhs.prereleaseIdentifiers
     }
