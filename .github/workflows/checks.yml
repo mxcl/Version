@@ -5,7 +5,7 @@ on:
       - master
 jobs:
   macOS:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - run: swift --version
