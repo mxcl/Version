@@ -1,0 +1,35 @@
+name: CI
+on: [pull_request]
+jobs:
+  auto-cancel:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: technote-space/auto-cancel-redundant-job@v1
+  macOS:
+    needs: auto-cancel
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: swift package generate-xcodeproj --enable-code-coverage
+    - uses: sersoft-gmbh/xcodebuild-action@v1
+      with:
+        project: Version.xcodeproj
+        scheme: Version-Package
+        action: test
+    - uses: codecov/codecov-action@v1
+  linux:
+    needs: auto-cancel
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        swift:
+        - '4.2'
+        - '5.0'
+        - '5.1'
+        - '5.2'
+    steps:
+    - uses: actions/checkout@v2
+    - uses: fwal/setup-swift@v1
+      with:
+        swift-version: ${{ matrix.swift }}
+    - run: swift build

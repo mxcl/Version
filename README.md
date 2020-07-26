@@ -1,4 +1,4 @@
-# Version ![badge-platforms][] ![badge-languages][] [![badge-ci][]][travis] [![badge-jazzy][]][docs] [![badge-codecov][]][codecov]
+# Version ![badge-platforms][] ![badge-languages][] [![badge-ci][]][ci] [![badge-jazzy][]][docs] [![badge-codecov][]][codecov]
 
 A µ-framework for representing, comparing, encoding and utilizing
 [semantic versions][semver], eg. `1.2.3` or `2.0.0-beta`.
@@ -28,11 +28,11 @@ should need merge any fixes.
 [semver]: https://semver.org
 [docs]: https://mxcl.dev/Version/Structs/Version.html
 [badge-platforms]: https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS-lightgrey.svg
-[badge-languages]: https://img.shields.io/badge/swift-4.2%20%7C%205.0-orange.svg
+[badge-languages]: https://img.shields.io/badge/swift-4.2%20%7C%205.0%20%7C%205.1%20%7C%205.2%20%7C%205.3-orange.svg
 [badge-jazzy]: https://raw.githubusercontent.com/mxcl/Version/gh-pages/badge.svg?sanitize=true
 [badge-codecov]: https://codecov.io/gh/mxcl/Version/branch/master/graph/badge.svg
-[badge-ci]: https://travis-ci.com/mxcl/Version.svg
-[travis]: https://travis-ci.com/mxcl/Version
+[badge-ci]: https://github.com/mxcl/Version/workflows/checks/badge.svg
+[ci]: https://github.com/mxcl/Version/actions
 [codecov]: https://codecov.io/gh/mxcl/Version
 [Swift Package Manager]: https://github.com/apple/swift-package-manager/blob/master/Sources/SPMUtility/Version.swift
 
