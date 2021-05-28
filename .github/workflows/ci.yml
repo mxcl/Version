@@ -1,5 +1,10 @@
 name: CI
-on: [pull_request]
+on:
+  pull_request:
+    paths:
+      - Sources/**
+      - Tests/**
+      - .github/workflows/ci.yml
 jobs:
   auto-cancel:
     runs-on: ubuntu-latest
@@ -19,7 +24,7 @@ jobs:
     - uses: codecov/codecov-action@v1
   linux:
     needs: auto-cancel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         swift:
@@ -27,9 +32,10 @@ jobs:
         - '5.0'
         - '5.1'
         - '5.2'
+        - '5.3'
+        - '5.4'
+    container:
+      image: swift:${{ matrix.swift }}
     steps:
     - uses: actions/checkout@v2
-    - uses: fwal/setup-swift@v1
-      with:
-        swift-version: ${{ matrix.swift }}
     - run: swift build
