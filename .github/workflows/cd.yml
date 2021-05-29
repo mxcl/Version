@@ -1,0 +1,17 @@
+on:
+  release:
+    types: published
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: SwiftDocOrg/swift-doc@master
+        with:
+          module-name: Version
+      - name: Publish Documentation
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: .build/documentation
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.PAT }}

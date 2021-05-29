@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: technote-space/auto-cancel-redundant-job@v1
     - uses: actions/checkout@v2
-    - run: swift test
+    - run: swift test --parallel
 
   linux:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
     continue-on-error: true  #continuous-resilience
     steps:
     - uses: actions/checkout@v2
-    - run: swift test --enable-code-coverage
+    - run: swift test --parallel --enable-code-coverage
     - run: |
         apt-get -qq update
         apt-get -qq install curl
