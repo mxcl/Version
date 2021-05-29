@@ -1,8 +1,10 @@
-name: checks
 on:
   push:
     branches:
       - master
+    paths:
+      - Sources/**
+      - Tests/**
 jobs:
   macOS:
     runs-on: macos-latest
