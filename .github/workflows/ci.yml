@@ -5,37 +5,53 @@ on:
       - Sources/**
       - Tests/**
       - .github/workflows/ci.yml
+  schedule:
+    - cron: '3 3 * * 4'  # 3:03 AM, every Thursday
 jobs:
-  auto-cancel:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: technote-space/auto-cancel-redundant-job@v1
   macOS:
-    needs: auto-cancel
     runs-on: macos-latest
     steps:
+    - uses: technote-space/auto-cancel-redundant-job@v1
     - uses: actions/checkout@v2
-    - run: swift package generate-xcodeproj --enable-code-coverage
-    - uses: sersoft-gmbh/xcodebuild-action@v1
-      with:
-        project: Version.xcodeproj
-        scheme: Version-Package
-        action: test
-    - uses: codecov/codecov-action@v1
+    - run: swift test
+
   linux:
-    needs: auto-cancel
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         swift:
-        - '4.2'
-        - '5.0'
-        - '5.1'
-        - '5.2'
-        - '5.3'
-        - '5.4'
+          - '4.2'
+          - '5.0'
+          - '5.1'
+          - '5.2'
+          - '5.3'
     container:
       image: swift:${{ matrix.swift }}
     steps:
     - uses: actions/checkout@v2
     - run: swift build
+
+  code-coverage:
+    runs-on: ubuntu-latest
+    name: linux (5.4)
+    container:
+      image: swift:5.4
+    continue-on-error: true  #continuous-resilience
+    steps:
+    - uses: actions/checkout@v2
+    - run: swift test --enable-code-coverage
+    - run: |
+        apt-get -qq update
+        apt-get -qq install curl
+      # ^^ for codecov’s action 🙄
+    - run: |
+        b="$(swift build --show-bin-path)"
+        llvm-cov export \
+            -format lcov \
+            -instr-profile="$b/codecov/default.profdata" \
+            --ignore-filename-regex='\.build|Tests' \
+            "$b"/*.xctest \
+          > info.lcov
+    - uses: codecov/codecov-action@v1
+      with:
+        file: ./info.lcov
