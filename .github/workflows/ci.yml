@@ -1,4 +1,5 @@
 name: CI
+
 on:
   pull_request:
     paths:
@@ -7,11 +8,15 @@ on:
       - .github/workflows/ci.yml
   schedule:
     - cron: '3 3 * * 4'  # 3:03 AM, every Thursday
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   macOS:
     runs-on: macos-latest
     steps:
-    - uses: technote-space/auto-cancel-redundant-job@v1
     - uses: actions/checkout@v2
     - run: swift test --parallel
 
