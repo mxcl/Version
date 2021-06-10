@@ -6,11 +6,14 @@ on:
       - Sources/**
       - Tests/**
       - .github/workflows/ci.yml
+  push:
+    branches: master
+    paths: .github/workflows/ci.yml
   schedule:
     - cron: '3 3 * * 4'  # 3:03 AM, every Thursday
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: ${{ github.head_ref || 'scheduled' }}
   cancel-in-progress: true
 
 jobs:
