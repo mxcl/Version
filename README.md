@@ -34,7 +34,7 @@ should need merge any fixes.
 [badge-ci]: https://github.com/mxcl/Version/workflows/checks/badge.svg
 [ci]: https://github.com/mxcl/Version/actions
 [codecov]: https://codecov.io/gh/mxcl/Version
-[Swift Package Manager]: https://github.com/apple/swift-package-manager/blob/master/Sources/SPMUtility/Version.swift
+[Swift Package Manager]: https://github.com/apple/swift-tools-support-core/blob/main/Sources/TSCUtility/Version.swift
 
 # Support mxcl
 
