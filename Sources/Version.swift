@@ -15,7 +15,8 @@
  A struct representing a “semver” version, that is: a Semantic Version.
  - SeeAlso: https://semver.org
  */
-public struct Version: Sendable {
+
+public struct Version {
     /// The major version.
     public let major: Int
 
@@ -193,3 +194,7 @@ public extension Version {
         buildMetadataIdentifiers = []
     }
 }
+
+#if swift(>=5.5)
+extension Version: Sendable {}
+#endif
