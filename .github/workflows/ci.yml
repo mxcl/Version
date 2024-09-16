@@ -20,7 +20,7 @@ jobs:
   macOS:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: mxcl/xcodebuild@v3
       with:
         code-coverage: true
@@ -30,16 +30,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        swift:
-          - 4.2
-          - 5.9
-        action:
-          - build
-        include:
-          - swift: 5.8
-            action: test
+        x:
+        - swift: 4.2
+          action: build
+        - swift: latest
+          action: test
     container:
-      image: ${{ matrix.swift }}
+      image: swift:${{ matrix.x.swift }}
     steps:
     - uses: actions/checkout@v2
-    - run: swift ${{ matrix.action }}
+    - run: swift ${{ matrix.x.action }}
