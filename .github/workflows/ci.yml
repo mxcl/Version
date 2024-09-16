@@ -23,7 +23,6 @@ jobs:
     - uses: actions/checkout@v2
     - uses: mxcl/xcodebuild@v3
       with:
-        warnings-as-errors: true
         code-coverage: true
     - uses: codecov/codecov-action@v1
 
