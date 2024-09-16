@@ -38,5 +38,5 @@ jobs:
     container:
       image: swift:${{ matrix.x.swift }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
     - run: swift ${{ matrix.x.action }}
