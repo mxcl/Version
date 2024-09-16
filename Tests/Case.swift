@@ -462,7 +462,10 @@ class VersionTests: XCTestCase {
     }
 
     func testBundleExtension() {
+        // seems to reflect the Xcode version after some version of Xcode
+      #if !os(macOS)
         XCTAssertEqual(Bundle.main.version, .null)
+      #endif
     }
 
     func testProcessInfoExtension() {
