@@ -33,6 +33,8 @@ jobs:
         x:
         - swift: 4.2
           action: build
+        - swift: 5.10
+          action: build
         - swift: latest
           action: test
     container:

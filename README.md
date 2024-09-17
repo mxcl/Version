@@ -28,7 +28,7 @@ should need merge any fixes.
 [semver]: https://semver.org
 [docs]: https://mxcl.dev/Version/Structs/Version.html
 [badge-platforms]: https://img.shields.io/badge/platforms-macOS%20%7C%20Linux%20%7C%20iOS%20%7C%20tvOS%20%7C%20watchOS%20%7C%20Windows-lightgrey.svg
-[badge-languages]: https://img.shields.io/badge/swift-4.2%20%7C%205.x-orange.svg
+[badge-languages]: https://img.shields.io/badge/swift-4.2%20%7C%205.x%20%7C%206.x-orange.svg
 [badge-jazzy]: https://raw.githubusercontent.com/mxcl/Version/gh-pages/badge.svg?sanitize=true
 [badge-codecov]: https://codecov.io/gh/mxcl/Version/branch/master/graph/badge.svg
 [badge-ci]: https://github.com/mxcl/Version/workflows/checks/badge.svg
