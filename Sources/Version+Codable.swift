@@ -32,3 +32,7 @@ public extension CodingUserInfoKey {
     /// A value indicating what decoding method to use: tolerant or strict. Default value is strict
     static let decodingMethod = CodingUserInfoKey(rawValue: "dev.mxcl.Version.decodingMethod")!
 }
+
+#if swift(>=5.5)
+extension DecodingMethod: Sendable {}
+#endif
