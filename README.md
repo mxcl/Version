@@ -36,21 +36,6 @@ should need merge any fixes.
 [codecov]: https://codecov.io/gh/mxcl/Version
 [Swift Package Manager]: https://github.com/apple/swift-tools-support-core/blob/main/Sources/TSCUtility/Version.swift
 
-# Support mxcl
-
-Hey there, I’m Max Howell. I’m a prolific producer of open source software and
-probably you already use some of it (for example, I created [`brew`]). I work
-full-time on open source and it’s hard; currently *I earn less than minimum
-wage*. Please help me continue my work, I appreciate it 🙏🏻
-
-<a href="https://www.patreon.com/mxcl">
-	<img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
-
-[Other ways to say thanks](http://mxcl.dev/#donate).
-
-[`brew`]: https://brew.sh
-
 # Usage
 
 ```swift
@@ -81,10 +66,6 @@ SwiftPM:
 ```swift
 package.append(.package(url: "https://github.com/mxcl/Version.git", from: "2.0.0"))
 ```
-
-Carthage:
-
-> Waiting on: [@Carthage#1945](https://github.com/Carthage/Carthage/pull/1945).
 
 ## Ranges
 
