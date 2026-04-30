@@ -95,7 +95,7 @@ extension Version: LosslessStringConvertible {
         func identifiers(start: String.Index?, end: String.Index) -> [String] {
             guard let start = start else { return [] }
             let identifiers = string[string.index(after: start)..<end]
-            return identifiers.split(separator: ".").map(String.init(_:))
+            return identifiers.split(separator: ".").map { String($0) }
         }
 
         self.prereleaseIdentifiers = identifiers(
@@ -133,7 +133,7 @@ extension Version: LosslessStringConvertible {
         func identifiers(start: String.Index?, end: String.Index) -> [String] {
             guard let start = start else { return [] }
             let identifiers = string[string.index(after: start)..<end]
-            return identifiers.split(separator: ".").map(String.init(_:))
+            return identifiers.split(separator: ".").map { String($0) }
         }
 
         self.prereleaseIdentifiers = identifiers(
@@ -187,7 +187,7 @@ public extension Version {
 
         if let prereleaseStartIndex = prereleaseStartIndex {
             let identifiers = string[string.index(after: prereleaseStartIndex)..<string.endIndex]
-            prereleaseIdentifiers = identifiers.split(separator: ".").map(String.init(_:))
+            prereleaseIdentifiers = identifiers.split(separator: ".").map { String($0) }
         } else {
             prereleaseIdentifiers = []
         }

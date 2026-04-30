@@ -1,11 +1,14 @@
 on:
   release:
     types: published
+permissions:
+  contents: read
+
 jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v6
       - uses: SwiftDocOrg/swift-doc@master
         with:
           module-name: Version
