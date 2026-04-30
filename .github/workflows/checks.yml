@@ -5,10 +5,16 @@ on:
     paths:
       - Sources/**
       - Tests/**
+      - Package.swift
+      - Package@swift-*.swift
+      - .github/workflows/checks.yml
+permissions:
+  contents: read
+
 jobs:
   macOS:
     runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v6
     - run: swift --version
     - run: swift test --parallel
